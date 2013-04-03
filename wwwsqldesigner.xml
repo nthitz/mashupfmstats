@@ -69,8 +69,7 @@
 <default>NULL</default></row>
 <row name="songId" null="1" autoincrement="0">
 <datatype>VARCHAR(24)</datatype>
-<default>NULL</default><relation table="song" row="songId" />
-</row>
+<default>NULL</default></row>
 <row name="djid" null="1" autoincrement="0">
 <datatype>VARCHAR(24)</datatype>
 <default>NULL</default></row>

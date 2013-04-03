@@ -50,7 +50,6 @@ CREATE TABLE `play` (
 -- Foreign Keys 
 -- ---
 
-ALTER TABLE `play` ADD FOREIGN KEY (songId) REFERENCES `song` (`songId`);
 
 -- ---
 -- Table Properties
