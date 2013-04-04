@@ -43,6 +43,7 @@ CREATE TABLE `play` (
   `down` INT(6) NULL DEFAULT NULL,
   `spread` INT(6) NULL DEFAULT NULL,
   `snagged` INT(6) NULL DEFAULT NULL,
+  `whichLine` INT(4) NOT NULL,
   PRIMARY KEY (`playId`)
 );
 
@@ -64,6 +65,6 @@ CREATE TABLE `play` (
 
 -- INSERT INTO `song` (`songId`,`title`,`artist`,`album`,`genre`,`length`) VALUES
 -- ('','','','','','');
--- INSERT INTO `play` (`playId`,`startTime`,`songId`,`djid`,`djname`,`up`,`down`,`spread`,`snagged`) VALUES
--- ('','','','','','','','','');
+-- INSERT INTO `play` (`playId`,`startTime`,`songId`,`djid`,`djname`,`up`,`down`,`spread`,`snagged`,`whichLine`) VALUES
+-- ('','','','','','','','','','');
 

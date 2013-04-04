@@ -27,4 +27,50 @@ else
 The bot will examine the response, if it sees 'needSong' it will send additional information
 to another script (logSong.php, do that next) to save the song metadata
 */
+require 'secret.php';
+
+$postVarsRequired = array('whichLine','songid','djid','djname','starttime','up','down','snagged','key');
+$in = array();
+$testInput = $_REQUEST;
+if($testInput['key'] !== $key) {
+      die('key');
+}
+foreach($postVarsRequired as $postVar) {
+      if(!isset($testInput[$postVar])) {
+            die('missingdata');
+      }
+      $in[$postVar] = $testInput[$postVar];
+}
+dbConnect();
+if ($db->connect_error) {
+    die('db error (' . $db->connect_errno . ') '. $db->connect_error);
+}
+$db->set_charset("utf8");
+$songIDSafe = $db->real_escape_string($in['songid']);
+$q = "INSERT INTO play (startTime, songId, djid, djname, up, down, spread, snagged, whichLine) VALUES (";
+$q .= $db->real_escape_string($in['starttime']) . ',';
+$q .= '\'' . $songIDSafe . '\',';
+$q .= '\'' . $db->real_escape_string($in['djid']) . '\',';
+$q .= '\'' . $db->real_escape_string($in['djname']) . '\',';
+$q .= $db->real_escape_string($in['up']) . ',';
+$q .= $db->real_escape_string($in['down']) . ',';
+$q .= $db->real_escape_string($in['up'] - $in['down']) . ',';
+$q .= $db->real_escape_string($in['snagged']) . ',';
+$q .= $db->real_escape_string($in['whichLine']);
+$q .= ')';
+if(!$db->query($q)) {
+      printf("Error: %s\n", $db->error);
+      die();
+}
+/* Select queries return a resultset */ 
+
+$songExistsQ = 'SELECT COUNT(*) as cnt FROM song WHERE songId=\'' . $songIDSafe . '\'';
+if ($result = $db->query($songExistsQ)) {
+    $row = $result->fetch_assoc();
+    if($row['cnt'] == 0) {
+        echo 'needsong:' . $in['songid'];
+    }
+    $result->close();
+}
+
 ?>

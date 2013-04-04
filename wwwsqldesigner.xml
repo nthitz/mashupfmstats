@@ -88,6 +88,9 @@
 <row name="snagged" null="1" autoincrement="0">
 <datatype>INT(6)</datatype>
 <default>NULL</default></row>
+<row name="whichLine" null="0" autoincrement="0">
+<datatype>INT(4)</datatype>
+</row>
 <key type="PRIMARY" name="">
 <part>playId</part>
 </key>
