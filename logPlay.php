@@ -12,7 +12,10 @@ Here's the data you will be getting in $_POST
       down: 
       snagged: 
       key: make sure this matches some secret random password that we determine before logging song
-
+      numListeners: numListeners
+      numActive: numActive
+      score: score
+      realScore: realScore
 Basic Needs:
 Log song into Play table. All the fields should match up to one of the post vars cept for the 'spread'
 field which should set as up + down
@@ -29,7 +32,8 @@ to another script (logSong.php, do that next) to save the song metadata
 */
 require 'secret.php';
 
-$postVarsRequired = array('whichLine','songid','djid','djname','starttime','up','down','snagged','key');
+$postVarsRequired = array('whichLine','songid','djid','djname','starttime','up','down','snagged','key'
+    , 'numListeners', 'numActive', 'score', 'realScore');
 $in = array();
 $testInput = $_REQUEST;
 if($testInput['key'] !== $key) {
@@ -47,7 +51,7 @@ if ($db->connect_error) {
 }
 $db->set_charset("utf8");
 $songIDSafe = $db->real_escape_string($in['songid']);
-$q = "INSERT INTO play (startTime, songId, djid, djname, up, down, spread, snagged, whichLine) VALUES (";
+$q = "INSERT INTO play (startTime, songId, djid, djname, up, down, spread, snagged, whichLine, numInRoom, numActive, score, realScore) VALUES (";
 $q .= $db->real_escape_string($in['starttime']) . ',';
 $q .= '\'' . $songIDSafe . '\',';
 $q .= '\'' . $db->real_escape_string($in['djid']) . '\',';
@@ -56,7 +60,11 @@ $q .= $db->real_escape_string($in['up']) . ',';
 $q .= $db->real_escape_string($in['down']) . ',';
 $q .= $db->real_escape_string($in['up'] - $in['down']) . ',';
 $q .= $db->real_escape_string($in['snagged']) . ',';
-$q .= $db->real_escape_string($in['whichLine']);
+$q .= $db->real_escape_string($in['whichLine']) . ',';
+$q .= $db->real_escape_string($in['numListeners']) . ',';
+$q .= $db->real_escape_string($in['numActive']) . ',';
+$q .= $db->real_escape_string($in['score']) . ',';
+$q .= $db->real_escape_string($in['realScore']);
 $q .= ')';
 if(!$db->query($q)) {
       printf("Error: %s\n", $db->error);

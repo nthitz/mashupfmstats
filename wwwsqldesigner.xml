@@ -56,11 +56,14 @@
 <row name="length" null="1" autoincrement="0">
 <datatype>INT(5)</datatype>
 <default>NULL</default></row>
+<row name="imported" null="1" autoincrement="0">
+<datatype>TINYINT(1)</datatype>
+<default>0</default></row>
 <key type="PRIMARY" name="">
 <part>songId</part>
 </key>
 </table>
-<table x="546" y="192" name="play">
+<table x="604" y="67" name="play">
 <row name="playId" null="0" autoincrement="1">
 <datatype>INT(10)</datatype>
 </row>
@@ -91,6 +94,21 @@
 <row name="whichLine" null="0" autoincrement="0">
 <datatype>INT(4)</datatype>
 </row>
+<row name="numInRoom" null="1" autoincrement="0">
+<datatype>INT(6)</datatype>
+<default>NULL</default></row>
+<row name="numActive" null="1" autoincrement="0">
+<datatype>INT(6)</datatype>
+<default>NULL</default></row>
+<row name="score" null="1" autoincrement="0">
+<datatype>DECIMAL(10,6)</datatype>
+<default>NULL</default></row>
+<row name="realScore" null="1" autoincrement="0">
+<datatype>DECIMAL(10,6)</datatype>
+<default>NULL</default></row>
+<row name="imported" null="1" autoincrement="0">
+<datatype>TINYINT(1)</datatype>
+<default>0</default></row>
 <key type="PRIMARY" name="">
 <part>playId</part>
 </key>

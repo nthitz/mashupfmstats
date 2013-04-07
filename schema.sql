@@ -23,6 +23,7 @@ CREATE TABLE `song` (
   `album` MEDIUMTEXT NULL DEFAULT NULL,
   `genre` MEDIUMTEXT NULL DEFAULT NULL,
   `length` INT(5) NULL DEFAULT NULL,
+  `imported` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`songId`)
 );
 
@@ -44,6 +45,11 @@ CREATE TABLE `play` (
   `spread` INT(6) NULL DEFAULT NULL,
   `snagged` INT(6) NULL DEFAULT NULL,
   `whichLine` INT(4) NOT NULL,
+  `numInRoom` INT(6) NULL DEFAULT NULL,
+  `numActive` INT(6) NULL DEFAULT NULL,
+  `score` DECIMAL(10,6) NULL DEFAULT NULL,
+  `realScore` DECIMAL(10,6) NULL DEFAULT NULL,
+  `imported` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`playId`)
 );
 
@@ -63,8 +69,8 @@ CREATE TABLE `play` (
 -- Test Data
 -- ---
 
--- INSERT INTO `song` (`songId`,`title`,`artist`,`album`,`genre`,`length`) VALUES
--- ('','','','','','');
--- INSERT INTO `play` (`playId`,`startTime`,`songId`,`djid`,`djname`,`up`,`down`,`spread`,`snagged`,`whichLine`) VALUES
--- ('','','','','','','','','','');
+-- INSERT INTO `song` (`songId`,`title`,`artist`,`album`,`genre`,`length`,`imported`) VALUES
+-- ('','','','','','','');
+-- INSERT INTO `play` (`playId`,`startTime`,`songId`,`djid`,`djname`,`up`,`down`,`spread`,`snagged`,`whichLine`,`numInRoom`,`numActive`,`score`,`realScore`,`imported`) VALUES
+-- ('','','','','','','','','','','','','','','');
 
