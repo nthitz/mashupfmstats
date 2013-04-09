@@ -1,0 +1,18 @@
+{
+	sorts: [
+		{lbl: "play count", type: "count"},
+		{lbl: "upvotes", var: "up"},
+		{lbl: "downvotes", var: "down"},
+		{lbl: "spread"},
+		{lbl: "snagged count", var:"snagged"},
+		{lbl: "fake score", var: "score"},
+		{lbl: "score"}
+	],
+	times: [
+		{lbl: "all time"},
+		{lbl: "last week", time: "week"},
+		{lbl: "last month", time: "month" },
+		{lbl: "last n months", time: "nmonths"},
+		{lbl: "24 hours", time: "day"}
+	]
+}

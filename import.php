@@ -1,9 +1,11 @@
 <?php
+die();
 require "secret.php";
-$path = "/home/nick/Downloads/mashup_songs.csv";
+$path = "importData/xad";
 $f = fopen($path, 'r');
 echo '<table>';
 $data = 0;
+$importID = 4;
 /*
 	startTime
 songId` VARCHAR(24) NULL DEFAULT NULL,
@@ -50,7 +52,7 @@ while (($data = fgetcsv($f, 0, ',', '"', '"')) !== FALSE) {
 		$data['realScore'] = 'NULL';
 	}
 	$q = 'INSERT INTO play (whichLine, imported, startTime,songId, djid, djname, up, down, spread, snagged, numInRoom, numActive, score, realScore) VALUES ';
-	$q .= '(0,1,'. round($data['starttime']) .',"'.$data['song_id'] . '","' . $data['user.userid'] . '", "' . $db->real_escape_string($data['user.name']). '",' .
+	$q .= '(0,'.$importID.','. round($data['starttime']) .',"'.$data['song_id'] . '","' . $data['user.userid'] . '", "' . $db->real_escape_string($data['user.name']). '",' .
 		$data['upvotes'] . ', ' . $data['downvotes'] . ', ' . ($data['upvotes'] - $data['downvotes']) . ', ' .
 		$data['hearts'] . ', ' . $data['listeners'] . ', ' . $data['nonIdleListeners'] . ', ' . $data['score'] . ', '. $data['realScore'] . ')';
 	
@@ -63,7 +65,7 @@ while (($data = fgetcsv($f, 0, ',', '"', '"')) !== FALSE) {
 
 	$q2 = 'INSERT INTO song (songId, title, artist, length, imported) VALUES ';
 	$q2 .= '("'. $data['song_id'] . '","' . $db->real_escape_string($data['metadata.song']).'", "' . $db->real_escape_string($data['metadata.artist']) .'", '.
-		 $data['metadata.length'] .',1) ON DUPLICATE KEY UPDATE songId=songId';
+		 $data['metadata.length'] .','.$importID.') ON DUPLICATE KEY UPDATE songId=songId';
 	if(!$db->query($q2)) {
 
 	      printf("Error: %s\n", $db->error);
