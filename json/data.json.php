@@ -5,6 +5,7 @@ $now = time();
 $orderVar = null;
 $timeVar = null;
 $orderingVar = null;
+$viewVar = null;
 if(!isset($_GET['order']) || !ctype_alnum($_GET['order'])) {
 	die('order');
 } else {
@@ -20,8 +21,27 @@ if(!isset($_GET['ordering']) || !ctype_alnum($_GET['ordering'])) {
 } else {
 	$orderingVar = $_GET['ordering'];
 }
-$q = 'SELECT song.title, song.artist, ';
+if(!isset($_GET['view']) || !ctype_alnum($_GET['view'])) {
+	die('view');
+} else {
+	$viewVar = $_GET['view'];
+}
 
+$q = 'SELECT ';
+$groupBy = null;
+switch($viewVar) {
+	case "songs":
+		$q .= 'song.title, song.artist, ';
+		$groupBy = 'play.songid';
+		break;
+	case "users":
+		$q .= 'play.djid, play.djname, ';
+		$groupBy = 'play.djid';
+		break;
+	default:
+		die('view');
+		break;
+}
 $count = false;
 $avg = false;
 
@@ -47,7 +67,14 @@ if($count) {
 	$q.= 'AVG('.$avg.')';
 }
 $q .= ' as cnt';
-$q .= ' FROM song,play WHERE play.songid=song.songid';
+$q .= ' FROM ';
+$whereClause = false;
+if($viewVar == 'songs') {
+	$q .= 'song,play WHERE play.songid=song.songid';
+	$whereClause = true;
+} else if($viewVar == 'users') {
+	$q .= 'play';
+}
 $timeLimit = false;
 switch($timeVar) {
 	case 'all':
@@ -65,10 +92,16 @@ switch($timeVar) {
 		die('time');
 }
 if($timeLimit !== false) {
+	if(!$whereClause) {
+		$whereClause = true;
+		$q .= ' WHERE ';
+	} else {
+		$q .= ' AND ';
+	}
 	$minStartTime = $now - $timeLimit;
-	$q.= ' AND play.startTime > ' . $minStartTime;
+	$q.= 'play.startTime > ' . $minStartTime;
 }
-$q .= ' GROUP BY play.songid ORDER BY cnt ';
+$q .= ' GROUP BY '.$groupBy.' ORDER BY cnt ';
 $ascending = true;
 switch($orderingVar) {
 	case 'top':

@@ -17,5 +17,9 @@
 	"ordering": [
 		{"lbl": "top"},
 		{"lbl": "bottom"}
+	],
+	"views" :[
+		{"lbl":"users"},
+		{"lbl":"songs"}
 	]
 }
