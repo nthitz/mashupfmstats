@@ -4,6 +4,7 @@ require "../secret.php";
 $now = time();
 $orderVar = null;
 $timeVar = null;
+$orderingVar = null;
 if(!isset($_GET['order']) || !ctype_alnum($_GET['order'])) {
 	die('order');
 } else {
@@ -13,6 +14,11 @@ if(!isset($_GET['time']) || !ctype_alnum($_GET['time'])) {
 	die('time');
 } else {
 	$timeVar = $_GET['time'];
+}
+if(!isset($_GET['ordering']) || !ctype_alnum($_GET['ordering'])) {
+	die('ordering');
+} else {
+	$orderingVar = $_GET['ordering'];
 }
 $q = 'SELECT song.title, song.artist, ';
 
@@ -55,12 +61,27 @@ switch($timeVar) {
 	case 'day':
 		$timeLimit = 60 * 60 * 24;
 		break;
+	default:
+		die('time');
 }
 if($timeLimit !== false) {
 	$minStartTime = $now - $timeLimit;
 	$q.= ' AND play.startTime > ' . $minStartTime;
 }
-$q .= ' GROUP BY play.songid ORDER BY cnt DESC LIMIT 50';
+$q .= ' GROUP BY play.songid ORDER BY cnt ';
+$ascending = true;
+switch($orderingVar) {
+	case 'top':
+		$ascending = false;
+		break;
+	case 'bottom':
+		$ascending = true;
+		break;
+	default:
+		die('ordering');
+}
+$q .= $ascending ? 'ASC' : 'DESC';
+$q .= ' LIMIT 50';
 dbConnect();
 $songs = array();
 if ($result = $db->query($q)) {
