@@ -99,12 +99,17 @@
 		trs.html(function(d) {
 			var tds = '';
 			_.each(rows,function(row) {
-				tds += '<td>' + d[row['var']] + '</td>';
+				tds += '<td>' + displayDataTD(d[row['var']]) + '</td>';
 			})
 			return tds;
 
 		})
 
+	}
+	function displayDataTD(value) {
+		var s = value.replace(/\\\\/g,'\\');
+		s = s.replace(/\\'/g,'\'');
+		return s;
 	}
 	function init() {
 		var controls = d3.select('.wrapper').append('div').attr('class','controls');
