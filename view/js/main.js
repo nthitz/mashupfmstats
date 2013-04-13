@@ -112,7 +112,8 @@
 		return s;
 	}
 	function init() {
-		var controls = d3.select('.wrapper').append('div').attr('class','controls');
+		var wrapper = d3.select('#topList');
+		var controls = wrapper.append('div').attr('class','controls');
 		controls.append('span').text('View ');
 		orderingSelect = controls.append('select').attr('class','ordering');
 		controls.append('span').text(' 50 ');
@@ -121,7 +122,7 @@
 		timePeriodSelect = controls.append('select').attr('class','timePeriod');
 		controls.append('span').text(' ordered by ');
 		orderSelect = controls.append('select').attr('class','order');
-		d3.select('.wrapper').append('table').attr('class','results');
+		wrapper.append('table').attr('class','table table-striped').append('tbody').attr('class','results');
 
 		d3.json(queryVarsUrl,loadQueryVars);
 	}
