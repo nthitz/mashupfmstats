@@ -115,7 +115,7 @@
 		var wrapper = d3.select('#topList');
 		var controls = wrapper.append('div').attr('class','controls');
 		controls.append('span').text('View ');
-		orderingSelect = controls.append('select').attr('class','ordering');
+		orderingSelect = controls.append('select').attr('class','ordering selectpicker');
 		controls.append('span').text(' 50 ');
 		viewSelect = controls.append('select').attr('class','views');
 		controls.append('span').text(' from ');
@@ -123,7 +123,7 @@
 		controls.append('span').text(' ordered by ');
 		orderSelect = controls.append('select').attr('class','order');
 		wrapper.append('table').attr('class','table table-striped').append('tbody').attr('class','results');
-
+		$('select').selectpicker();
 		d3.json(queryVarsUrl,loadQueryVars);
 	}
 	init();
