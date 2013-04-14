@@ -3,8 +3,6 @@
     var queryVarsUrl = jsonPath + "vars.json";
     var timePeriodSelect;
     var orderSelect;
-    var orderingButtonGroup;
-    var orderingHidden;
     var viewButtonGroup;
     var viewHidden;
     var sorts;
@@ -45,15 +43,6 @@
         })
         $('.order').on('change',makeRequest);
         
-        var orderingButtons = orderingButtonGroup.selectAll('button').data(orderings);
-        orderingButtons.enter().append('button').attr('type','button').attr('class','btn')
-            .attr('value',function(d) {
-                return d.lbl;
-            }).text(function(d) {
-                return d.lbl;
-            }).attr('data-toggle','button');
-        orderingHidden.attr('value',orderings[0].lbl)
-        $(orderingHidden[0]).on('change', makeRequest);
         var viewButtons = viewButtonGroup.selectAll('button').data(views);
         viewButtons.enter().append('button').attr('type','button').attr('class','btn')
             .attr('value',function(d) {
@@ -71,7 +60,6 @@
         var dataPath = jsonPath + "data.json.php?";
         dataPath += "time=" + $('.timePeriod').val() + "&";
         dataPath += "order=" + $(".order").val() + "&";
-        dataPath += "ordering=" + $(orderingHidden[0]).val() + "&";
         dataPath += "view=" + $(viewHidden[0]).val();
         console.log('request data '+dataPath);
         d3.json(dataPath, getData);
@@ -108,10 +96,12 @@
         console.log(rows);
         
         console.log(data);
-        var header = d3.select('#topList table thead tr').selectAll('th').data(rows)
-            .enter().append('th').text(function(d) {
+        var header = d3.select('#topList table thead tr').selectAll('th').data(rows);
+        header.enter().append('th');
+        header.text(function(d) {
                 return d.name;
             })
+        header.exit().remove();
 
         var trs = d3.select('.results').selectAll('tr').data(data);
         trs.enter().append('tr');
@@ -134,11 +124,8 @@
     function init() {
         var wrapper = d3.select('#topList');
         var controls = wrapper.append('div').attr('class','controls');
-        orderingButtonGroup = controls.append('div').attr('class','btn-group orderingBtns').attr('data-toggle','buttons-radio')
-            .attr('data-toggle-name','ordering');
         viewButtonGroup = controls.append("div").attr('class','btn-group viewBtns').attr('data-toggle','buttons-radio')
             .attr('data-toggle-name','view');
-        orderingHidden = controls.append('input').attr('type','hidden').attr('name','ordering');
         viewHidden = controls.append('input').attr('type','hidden').attr('name','view')
         controls.append('span').text(' from ');
         timePeriodSelect = controls.append('select').attr('class','timePeriod');

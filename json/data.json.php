@@ -16,11 +16,13 @@ if(!isset($_GET['time']) || !ctype_alnum($_GET['time'])) {
 } else {
 	$timeVar = $_GET['time'];
 }
+/*
 if(!isset($_GET['ordering']) || !ctype_alnum($_GET['ordering'])) {
 	die('ordering');
 } else {
 	$orderingVar = $_GET['ordering'];
 }
+*/
 if(!isset($_GET['view']) || !ctype_alnum($_GET['view'])) {
 	die('view');
 } else {
@@ -64,7 +66,7 @@ switch($orderVar) {
 if($count) {
 	$q .= 'COUNT(*)';
 } else if($avg !== false) {
-	$q.= 'AVG('.$avg.')';
+	$q.= 'SUM('.$avg.')';
 }
 $q .= ' as cnt';
 $q .= ' FROM ';
@@ -101,19 +103,8 @@ if($timeLimit !== false) {
 	$minStartTime = $now - $timeLimit;
 	$q.= 'play.startTime > ' . $minStartTime;
 }
-$q .= ' GROUP BY '.$groupBy.' ORDER BY cnt ';
-$ascending = true;
-switch($orderingVar) {
-	case 'top':
-		$ascending = false;
-		break;
-	case 'bottom':
-		$ascending = true;
-		break;
-	default:
-		die('ordering');
-}
-$q .= $ascending ? 'ASC' : 'DESC';
+$q .= ' GROUP BY '.$groupBy.' ORDER BY cnt DESC';
+
 $q .= ' LIMIT 50';
 dbConnect();
 $songs = array();
