@@ -4,25 +4,51 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
+a {
+	color: #5E855E;
+}
+a:hover {
+	color: #135413;
+}
 .controls {
 	margin-bottom: 5px;
 }
 
-.results td {
-	padding: 2px 5px;
-	font-size:12px;
+.results .header .h {
+	font-weight: bold;	
+}
+.results .field{
+	min-height: 0;
+	font-size:11px;
+}
+.results .dataRow:nth-child(even) {
+	background: #f9f9f9;
 }
 
+.results .span {
+	min-height: 0;
+}
+.results .field {
+	height: 20px;
+	overflow: hidden;
+}
+.results .bar {
+	background-color: #5E855E;
+	color: white;
+	height: 18px;
+	margin-top: 2px;
+	font-size: 10px;
+	border-radius: 6px;
+	text-indent: 8px;
+}
 
-
-
-
-
-
-
-
-
+.timeNav {
+	margin-top: 5px;
+}
+.timeNav a {
+	cursor: pointer;
+	padding: 2px 12px !important;
+}
 
 
 

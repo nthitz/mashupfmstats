@@ -81,7 +81,16 @@ $timeLimit = false;
 switch($timeVar) {
 	case 'all':
 		break;
-	case 'month':
+	case 'year':
+		$timeLimit = 60 * 60 * 24 * 30 * 12;
+		break;
+	case 'months6':
+		$timeLimit = 60 * 60 * 24 * 30 * 6;
+		break;
+	case 'months3':
+		$timeLimit = 60 * 60 * 24 * 30 * 3;
+		break;
+	case 'months1':
 		$timeLimit = 60 * 60 * 24 * 30;
 		break;
 	case 'week':

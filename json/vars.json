@@ -9,20 +9,20 @@
 		{"lbl": "score", "var": "realScore"}
 	],
 	"times": [
-		{"lbl": "all time", "time" : "all"},
-		{"lbl": "last year", "time": "year" },
-		{"lbl": "last 6 month", "time": "months6" },
-		{"lbl": "last 3 month", "time": "months3" },
-		{"lbl": "last month", "time": "months1" },
+		{"lbl": "24 hours", "time": "day"},
 		{"lbl": "last week", "time": "week"},
-		{"lbl": "24 hours", "time": "day"}
+		{"lbl": "last month", "time": "months1" },
+		{"lbl": "last 3 months", "time": "months3" },
+		{"lbl": "last 6 months", "time": "months6" },
+		{"lbl": "last year", "time": "year" },
+		{"lbl": "all time", "time" : "all"}
 	],
 	"ordering": [
 		{"lbl": "top"},
 		{"lbl": "bottom"}
 	],
 	"views" :[
-		{"lbl":"users"},
-		{"lbl":"songs"}
+		{"lbl":"songs"},
+		{"lbl":"users"}
 	]
 }
