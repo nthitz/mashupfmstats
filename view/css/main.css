@@ -37,19 +37,63 @@ a:hover {
 	color: white;
 	height: 18px;
 	margin-top: 2px;
+	margin-bottom: 2px;
 	font-size: 10px;
 	border-radius: 6px;
 	text-indent: 8px;
+	line-height: 18px;
+	cursor: pointer;
 }
+.results .dataRow:hover {
+	background: #f1f1f1;
+}
+.results .dataRow:hover .bar {
+	background-color: #135413;
+}
+.results .dataRow:hover .fields .field:first-child {
+	text-decoration: underline;
+	cursor: pointer;
 
+}
 .timeNav {
-	margin-top: 5px;
+	margin-top: 10px;
 }
 .timeNav a {
 	cursor: pointer;
-	padding: 2px 12px !important;
+	padding: 0px 8px !important;
+	font-size: 12px;
 }
 
 
 
+.container {
+	overflow:hidden;
+}
+#containerWrap {
+	width: 200%;
+	-webkit-transition: margin-left 1s;
+}
+#containerWrap.secondary {
+	margin-left: -100%;
+}
+#topList {
+	width: 50%;
+	float: left;
+}
+#topList.animated {
+	-webkit-transition: height 1s;
 
+}
+#secondary {
+	width: 50%;
+	float:left;
+	height:0;
+	-webkit-transition: height 1s;
+}
+
+#containerWrap.secondary #topList {
+	height: 1px;
+}
+#containerWrap.secondary #secondary {
+	height: auto;
+}

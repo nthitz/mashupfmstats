@@ -12,6 +12,9 @@
     var barScale;
     var barsInited = false;
     var jsonData;
+    var dataKeyRow;
+
+    var dataRows;
     function loadQueryVars(err, queryVars) {
         console.log(err);
         console.log(queryVars);
@@ -70,7 +73,7 @@
         makeRequest();
     }
     function makeRequest() {
-        var dataPath = jsonPath + "data.json.php?";
+        var dataPath = jsonPath + "top.json.php?";
         dataPath += "time=" + $('.timeNav .active').data('time') + "&";
         dataPath += "order=" + $(".order").val() + "&";
         dataPath += "view=" + $(viewHidden[0]).val();
@@ -93,7 +96,7 @@
         if($(viewHidden[0]).val() == 'songs') {
             rows = [
                 {sub: true, fields: [
-                    {name: "title", span:4 },
+                    {name: "title", key:'songid', span:4 },
                     {name: "artist", span:2 }
                 ]},
                 {name: $('.order').val(), "var": 'cnt', span:6}
@@ -101,16 +104,21 @@
         } else if($(viewHidden[0]).val() == 'users') {
             rows = [
                 {sub: true, fields: [
-                    {name: "djname", span:6}
+                    {name: "djname", key:'djid', span:6}
                 ]},
                 {name: $('.order').val(), "var": 'cnt', span:6}
             ]
 
         }
+        dataRows = rows;
+
         _.each(rows[0].fields,function(d) {
             if(typeof d['var'] === 'undefined') {
                 d['var'] = d.name;
 
+            }
+            if(typeof d['key'] !== 'undefined') {
+                dataKeyRow = d;
             }
         });
         var minCount = Number.MAX_VALUE;
@@ -177,6 +185,7 @@
                 }
                 return cl;
             });
+        dataRows.on('click', clickDataRow)
         var fieldContainer = dataRows.select('.fields').selectAll('.row-fluid').data(function(d) { return [d]; })
         fieldContainer.enter().append('div').attr('class','row-fluid');
         var fields = fieldContainer.selectAll('.field').data(function(d) {
@@ -203,10 +212,13 @@
         bar.text(function(d) {
             return +d.d;
         })
+
         bar.transition().duration(1000).style('width',function(d) {
             
             return barScale(d.d) + 'px';
         })
+        $('#topList').height($('#topList').height())
+
     }
     function barDiv(d,i) {
 
@@ -221,8 +233,23 @@
         s = s.replace(/\\"/g,'"');
         return s;
     }
+    function clickDataRow(d,i) {
+        console.log(d);
+        console.log(dataKeyRow)
+        var detailQuery = {};
+        detailQuery[dataKeyRow.key] = d[dataKeyRow.key];
+        Detail.getDetail(JSON.stringify(detailQuery));
+        gotoSecondary();
+    }
+    function gotoSecondary() {
+
+        $('#topList').addClass('animated').height('1px');
+
+        $('#containerWrap').addClass('secondary');
+    }
     function init() {
         var wrapper = d3.select('#topList');
+        var secondWrapper = d3.select('#secondary').text('hello');
         var controls = wrapper.append('div').attr('class','controls');
         viewButtonGroup = controls.append("div").attr('class','btn-group viewBtns').attr('data-toggle','buttons-radio')
             .attr('data-toggle-name','view');
@@ -238,6 +265,7 @@
 
         $('select').selectpicker();
         d3.json(queryVarsUrl,loadQueryVars);
+        Detail.init($('#secondary').get())
     }
     function bootstrapRadioButtons() {
         jQuery(function($) {
