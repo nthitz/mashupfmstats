@@ -1,4 +1,4 @@
-(function() {
+var MashupViz = (function() {
     var jsonPath = "../json/";
     var queryVarsUrl = jsonPath + "vars.json";
     var timePeriodNav;
@@ -23,7 +23,6 @@
         orderings = queryVars.ordering;
         views = queryVars.views;
         _.each(sorts,function(d,i) {
-            console.log(d);
             if(typeof d['var'] === 'undefined') {
                 d['var'] = d.lbl;
             }
@@ -238,7 +237,7 @@
         console.log(dataKeyRow)
         var detailQuery = {};
         detailQuery[dataKeyRow.key] = d[dataKeyRow.key];
-        Detail.getDetail(JSON.stringify(detailQuery));
+        Detail.getDetail(detailQuery);
         gotoSecondary();
     }
     function gotoSecondary() {
@@ -274,8 +273,6 @@
             var form    = group.parents('form').eq(0);
             var name    = group.attr('data-toggle-name');
             var hidden  = $('input[name="' + name + '"]');
-            console.log(name);
-            console.log(hidden.val());
             $('button', group).each(function(){
                 var button = $(this);
                 button.on('click', function(){
@@ -293,4 +290,5 @@
         });
     }
     init();
+    return {jsonPath: jsonPath}
 })()
