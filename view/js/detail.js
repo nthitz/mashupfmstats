@@ -2,7 +2,6 @@ var Detail = (function() {
 	var div;
 	var songInited;
 	var djInited;
-
 	function init(_div) {
 		div = _div[0];
 		songInited = false;
@@ -40,7 +39,8 @@ var Detail = (function() {
 		var songDiv = d3.select(div).append('div').attr('class','container song');
 		this.songDiv = songDiv;
 		songInfo = songDiv.append('div').attr('class','songInfo row-fluid');
-
+		var historyGraphDiv = songDiv.append('div').attr('class','historyGraph');
+		HistoryGraph.init(historyGraphDiv);
 	}
 	function songHistory(data) {
 		if(!this.songInited) {
@@ -56,16 +56,27 @@ var Detail = (function() {
 		var infoPieces = this.songDiv.select('.songInfo').selectAll('.infoPiece').data(songInfoData)
 			.enter().append('div');
 		infoPieces.attr('class',function(d,i) {
-			var spanCount = 4;
-			if(d.lbl == 'album') {
-				spanCount = 3;
-			} else if(d.lbl === 'length') {
+			var spanCount = 6;
+			if(d.lbl === 'length') {
 				spanCount = 1;
+			} else if(d.lbl === 'artist') {
+				spanCount = 5;
 			}
 			return 'infoPiece span' + spanCount;
 		}).html(function(d) {
-			return d.lbl + '<br />' + d.value;
+			var text = d.lbl + '<br />' +d.value;
+			if(d.lbl === 'length') {
+				var min = Math.floor(d.value / 60);
+				var sec = d.value % 60;
+				if(sec < 10) {
+					sec = "0" + sec;
+				}
+				text = '<br/>'+(min+ ":" +sec);
+			}
+			return text;
+
 		})
+		HistoryGraph.loadGraph(data);
 	}
 	function initDj() {
 		this.djDiv = d3.select(this.div).append('div').attr('class','dj');

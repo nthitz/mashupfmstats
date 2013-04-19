@@ -24,6 +24,7 @@ $keySafe = $db->real_escape_string($key);
 $valueSafe = $db->real_escape_string($value);
 $data = [];
 $data['key'] = $key;
+$data['times'] = array('min'=>$lastYear , 'max' => $now);
 $q = 'SELECT * FROM play WHERE ' . $key .'="'.$valueSafe.
 	'" && startTime >'. $lastYear .' ORDER BY startTime DESC';
 $plays = array();
@@ -41,7 +42,7 @@ if ($result = $db->query($q)) {
 
 switch($key) {
 	case "djid":
-		
+
 	break;
 	case "songid":
 		$songQ = 'SELECT * FROM song WHERE songid="'.$valueSafe.'" LIMIT 1';

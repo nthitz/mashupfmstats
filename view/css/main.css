@@ -97,3 +97,15 @@ a:hover {
 #containerWrap.secondary #secondary {
 	height: auto;
 }
+
+
+.historyGraph .bar {
+	fill: #5E855E;
+}
+.historyGraph .bar:hover {
+	fill: #135413;
+}
+.historyGraph .timeLabel {
+	font-size: 10px;
+
+}
