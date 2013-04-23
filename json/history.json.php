@@ -22,7 +22,7 @@ if(isset($_GET['value']) && ctype_alnum($_GET['value'])) {
 dbConnect();
 $keySafe = $db->real_escape_string($key);
 $valueSafe = $db->real_escape_string($value);
-$data = [];
+$data = array();
 $data['key'] = $key;
 $data['times'] = array('min'=>$lastYear , 'max' => $now);
 
