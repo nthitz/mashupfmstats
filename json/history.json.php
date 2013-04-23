@@ -25,8 +25,17 @@ $valueSafe = $db->real_escape_string($value);
 $data = [];
 $data['key'] = $key;
 $data['times'] = array('min'=>$lastYear , 'max' => $now);
-$q = 'SELECT * FROM play WHERE ' . $key .'="'.$valueSafe.
-	'" && startTime >'. $lastYear .' ORDER BY startTime DESC';
+
+$q = 'SELECT * FROM play';
+if($key === 'djid') {
+	$q = 'SELECT play.*, song.title, song.artist FROM play, song';
+} 
+$q.= ' WHERE ' . $key .'="'.$valueSafe. '" && startTime >'. $lastYear ;
+if($key === 'djid') {
+	$q .= ' && play.songid=song.songid';
+}
+$q .=' ORDER BY startTime DESC';
+
 $plays = array();
 
 if ($result = $db->query($q)) {

@@ -16,7 +16,14 @@ var Utils = (function() {
 			case 11: return "Dec"; break;
 		}
 	}
+	function displayDataTD(value) {
+		var s = value;
+        s = value.replace(/\\\\/g,'\\');
+        s = s.replace(/\\'/g,'\'');
+        s = s.replace(/\\"/g,'"');
+        return s;
+	}
 	return {
-		getMonthStr: getMonthStr
+		getMonthStr: getMonthStr, displayDataTD: displayDataTD
 	};
 })()

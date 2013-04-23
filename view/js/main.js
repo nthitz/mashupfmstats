@@ -203,7 +203,7 @@ var MashupViz = (function() {
         })
         fields.text(function(d,i) {
             
-            return displayDataTD(d);
+            return Utils.displayDataTD(d);
         })
         var bar = d3.select('.results').selectAll('.dataRow').selectAll('.count')
             .selectAll('.bar').data(function(d,i) { return [{d:data[i].cnt, i:i}]; })

@@ -11,13 +11,18 @@ var HistoryGraph = (function() {
 	var timeXScale;
 	var valueYScale;
 	var maxPlays;
+	var tableDiv;
+	var tableHeaders;
+	var tableData;
 	function init(_div) {
 		div = _div;
 		svg = div.append('div').attr('class','row-fluid')
 			.append('div').attr('class','span12')
 			.append('svg').style('width','100%').style('height','200px');
 		svg.append('g').attr('class','bars');
-		
+		tableDiv = div.append('div').attr('class','table table-striped');
+		tableDiv.append('div').attr('class','row-fluid headers');
+		tableDiv.append('div').attr('class','container rows');
 	}
 	function getBucketIndex(time) {
 		return bucketIndex = Math.floor((time - minTime) / (maxTime - minTime) * (maxTime - minTime) / bucketTimeSize);
@@ -130,8 +135,73 @@ var HistoryGraph = (function() {
 				}
 			}) 
 	}
-	
+	function table(type) {
+		var headers;
+		if(type === 'song') {
+			headers = [
+				{name: 'time', field: 'startTime', span: 2},
+				{name: 'dj', field: 'djname', span: 4},
+				{name: 'spread', field: 'spread', span: 2},
+				{name: 'hearts', field: 'snagged', span:1}
+			];
+		} else if(type === 'dj') {
+			headers = [
+				{name: 'time', field: 'startTime', span: 2},
+				
+				{name: 'song', field: 'title', span: 4},
+				{name: 'artist', field: 'artist', span: 4},
+				{name: 'spread', field: 'spread', span: 1},
+				{name: 'hearts', field: 'snagged', span:1}
+
+			]
+		}
+		tableHeaders = headers;
+		tableData = _.map(playsData,function(d,i) {
+			var cells = []
+			_.each(headers,function(header) {
+				cells.push({value: d[header.field], rowIndex:i});
+			});
+			return {cells: cells, up: d['up'], down: d['down']};
+		})
+		console.log(tableData);
+		var header = tableDiv.select('.headers').selectAll('.header').data(headers);
+		header.enter().append('div');
+		header.attr('class',function(d,i) {
+			return 'header span' + d.span;
+		}).text(function(d) {
+			return d.name;
+		})
+		var rows = tableDiv.select('.rows').selectAll('.row-fluid').data(tableData);
+		rows.enter().append('div').attr('class','row-fluid')
+		var span = rows.selectAll('.span').data(function(d) {
+			return d.cells
+		})
+		span.enter().append('div');
+		span.attr('class',function(d,i) {
+			return 'span span'+headers[i].span + " span" + headers[i].name;
+		}).html(tableCell);
+
+	}
+	function tableCell(d,i) {
+		var header = tableHeaders[i];
+		switch(header.name) {
+			case 'time': return tableTimeCell(d,i);
+			case 'spread': return tableSpreadCell(d,i);
+			default: return Utils.displayDataTD(d.value);
+		}
+	}
+	function tableTimeCell(d,i) {
+		var d = new Date(+d.value * 1000);
+		return Utils.getMonthStr(d.getMonth()) + " " + d.getDate() + ", " + d.getFullYear();
+	}
+	function tableSpreadCell(d,i) {
+		console.log(playsData[i]);
+		return '<span class="diff">' + d.value + '</span> ' +
+			'<span class="breakdown">-' + tableData[d.rowIndex].down + '/+' + tableData[d.rowIndex].up + '</span>';
+
+
+	}
 	return {
-		init: init, loadGraph: loadGraph
+		init: init, loadGraph: loadGraph, table: table
 	};
 })()

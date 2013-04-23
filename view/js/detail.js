@@ -2,10 +2,14 @@ var Detail = (function() {
 	var div;
 	var songInited;
 	var djInited;
+	var metadataDiv;
 	function init(_div) {
 		div = _div[0];
 		songInited = false;
 		djInited = false;
+		metadataDiv = d3.select(div).append('div').attr('class','metadata');
+		var historyGraphDiv = d3.select(div).append('div').attr('class','historyGraph');
+		HistoryGraph.init(historyGraphDiv);
 	}
 	function getDetail(data) {
 		var value = null;
@@ -36,11 +40,9 @@ var Detail = (function() {
 	}
 	function initSong() {
 
-		var songDiv = d3.select(div).append('div').attr('class','container song');
+		var songDiv = metadataDiv.append('div').attr('class','container song');
 		this.songDiv = songDiv;
 		songInfo = songDiv.append('div').attr('class','songInfo row-fluid');
-		var historyGraphDiv = songDiv.append('div').attr('class','historyGraph');
-		HistoryGraph.init(historyGraphDiv);
 	}
 	function songHistory(data) {
 		if(!this.songInited) {
@@ -77,6 +79,7 @@ var Detail = (function() {
 
 		})
 		HistoryGraph.loadGraph(data);
+		HistoryGraph.table('song');
 	}
 	function initDj() {
 		this.djDiv = d3.select(this.div).append('div').attr('class','dj');
@@ -86,6 +89,8 @@ var Detail = (function() {
 			this.djInited = true;
 			initDj();
 		}
+		HistoryGraph.loadGraph(data);
+		HistoryGraph.table('dj');
 	}
 	return {
 		init: init,

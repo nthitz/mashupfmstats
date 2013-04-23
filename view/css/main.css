@@ -102,6 +102,9 @@ a:hover {
 .historyGraph .bar {
 	fill: #5E855E;
 }
+.historyGraph .barLbl {
+	font-size: 12px;
+}
 .historyGraph .bar:hover {
 	fill: #135413;
 }
@@ -109,3 +112,19 @@ a:hover {
 	font-size: 10px;
 
 }
+.historyGraph .table .rows .row-fluid:nth-child(odd) {
+	background: #f9f9f9;
+}
+.historyGraph .table .row-fluid .span {
+	min-height: 21px;
+}
+.historyGraph .table .spanspread .breakdown {
+	display: none;
+}
+.historyGraph .table .spanspread:hover .diff {
+	display: none;
+}
+.historyGraph .table .spanspread:hover .breakdown {
+	display: block;
+}
+
