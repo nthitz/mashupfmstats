@@ -67,14 +67,14 @@ var Detail = (function() {
 			}
 			return 'infoPiece span' + spanCount;
 		}).html(function(d) {
-			var text = d.lbl + '<br />' +d.value;
+			var text = '<div class="lbl">' + d.lbl + '</div><div class="value">' + d.value + "</div>";
 			if(d.lbl === 'length') {
 				var min = Math.floor(d.value / 60);
 				var sec = d.value % 60;
 				if(sec < 10) {
 					sec = "0" + sec;
 				}
-				text = '<br/>'+(min+ ":" +sec);
+				text = '<div class="lbl">&nbsp;</div><div class="value">'+(min+ ":" +sec)+"</div>";
 			}
 			return text;
 

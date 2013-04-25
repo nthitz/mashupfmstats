@@ -14,8 +14,10 @@ a:hover {
 	margin-bottom: 5px;
 }
 
-.results .header .h {
+.results .header .hSpan, .results .header .hField {
 	font-weight: bold;	
+	font-size:12px;
+	min-height: 22px;
 }
 .results .field{
 	min-height: 0;
@@ -98,7 +100,14 @@ a:hover {
 	height: auto;
 }
 
-
+.song .songInfo .lbl {
+	font-size:11px;
+	color: #999;
+}
+.song .songInfo .value {
+	font-weight: bold;
+	font-size: 16px;
+}
 .historyGraph .bar {
 	fill: #5E855E;
 }
@@ -127,4 +136,8 @@ a:hover {
 .historyGraph .table .spanspread:hover .breakdown {
 	display: block;
 }
-
+.historyGraph .table .header {
+	font-weight:bold;
+	font-size: 12px;
+	min-height: 21px;
+}

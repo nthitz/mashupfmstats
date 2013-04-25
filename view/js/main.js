@@ -113,17 +113,18 @@ var MashupViz = (function() {
                     {name: "title", key:'songid', span:4 },
                     {name: "artist", span:2 }
                 ]},
-                {name: $('.order').val(), "var": 'cnt', span:6}
+                {name: $('.bootstrap-select.order .filter-option').text(), "var": 'cnt', span:6}
             ];
         } else if($(viewHidden[0]).val() == 'djs') {
             rows = [
                 {sub: true, fields: [
                     {name: "djname", key:'djid', span:6}
                 ]},
-                {name: $('.order').val(), "var": 'cnt', span:6}
+                {name: $('.bootstrap-select.order .filter-option').text(), "var": 'cnt', span:6}
             ]
 
         }
+        console.log(rows);
         dataRows = rows;
 
         _.each(rows[0].fields,function(d) {
@@ -167,6 +168,9 @@ var MashupViz = (function() {
                 .selectAll('.row-fluid').data(function(d) { return [d] });
         headerFieldContainer.enter().append('div').attr('class','row-fluid');
         
+        d3.select('.results .count').text(function(d) {
+            return d.name;
+        })
         var headerFields = headerFieldContainer.selectAll('.hField').data(function(d) {
             return d.fields
         });
@@ -267,7 +271,7 @@ var MashupViz = (function() {
     }
     function init() {
         var wrapper = d3.select('#topList');
-        var secondWrapper = d3.select('#secondary').text('hello');
+        var secondWrapper = d3.select('#secondary');
         var controls = wrapper.append('div').attr('class','controls');
         viewButtonGroup = controls.append("div").attr('class','btn-group viewBtns').attr('data-toggle','buttons-radio')
             .attr('data-toggle-name','view');
