@@ -36,7 +36,7 @@ switch($viewVar) {
 		$q .= 'song.title, song.artist,  play.songid, ';
 		$groupBy = 'play.songid';
 		break;
-	case "users":
+	case "djs":
 		$q .= 'play.djid, play.djname, ';
 		$groupBy = 'play.djid';
 		break;
@@ -74,7 +74,7 @@ $whereClause = false;
 if($viewVar == 'songs') {
 	$q .= 'song,play WHERE play.songid=song.songid';
 	$whereClause = true;
-} else if($viewVar == 'users') {
+} else if($viewVar == 'djs') {
 	$q .= 'play';
 }
 $timeLimit = false;

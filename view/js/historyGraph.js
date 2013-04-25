@@ -195,7 +195,6 @@ var HistoryGraph = (function() {
 		return Utils.getMonthStr(d.getMonth()) + " " + d.getDate() + ", " + d.getFullYear();
 	}
 	function tableSpreadCell(d,i) {
-		console.log(playsData[i]);
 		return '<span class="diff">' + d.value + '</span> ' +
 			'<span class="breakdown">-' + tableData[d.rowIndex].down + '/+' + tableData[d.rowIndex].up + '</span>';
 

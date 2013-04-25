@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteBase /mashupfmstats/view/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(\w*) index.html?url=$1

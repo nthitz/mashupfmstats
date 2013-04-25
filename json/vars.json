@@ -23,6 +23,6 @@
 	],
 	"views" :[
 		{"lbl":"songs"},
-		{"lbl":"users"}
+		{"lbl":"djs"}
 	]
 }

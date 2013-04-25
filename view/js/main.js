@@ -1,5 +1,6 @@
 var MashupViz = (function() {
-    var jsonPath = "../json/";
+    var jsonPath = "/mashupfmstats/json/";
+    var path = "/mashupfmstats/view/"
     var queryVarsUrl = jsonPath + "vars.json";
     var timePeriodNav;
     var orderSelect;
@@ -15,6 +16,8 @@ var MashupViz = (function() {
     var dataKeyRow;
 
     var dataRows;
+    var replaceState = true;
+    var ignoreStateChange = false;
     function loadQueryVars(err, queryVars) {
         console.log(err);
         console.log(queryVars);
@@ -73,10 +76,22 @@ var MashupViz = (function() {
     }
     function makeRequest() {
         var dataPath = jsonPath + "top.json.php?";
-        dataPath += "time=" + $('.timeNav .active').data('time') + "&";
-        dataPath += "order=" + $(".order").val() + "&";
-        dataPath += "view=" + $(viewHidden[0]).val();
-        console.log('request data '+dataPath);
+        var time = $('.timeNav .active').data('time');
+        var ordering = $(".order").val();
+        var view = $(viewHidden[0]).val();
+        dataPath += "time=" + time + "&";
+        dataPath += "order=" + ordering + "&";
+        dataPath += "view=" + view;
+        console.log('request data '+dataPath)
+        var nextState = History.pushState;
+        if(replaceState) {
+            replaceState = false;
+            nextState = History.replaceState;
+            console.log('replace');
+            ignoreStateChange = true;
+        }
+        nextState({time: time, ordering: ordering, view: view}, "View " + view, path + view + "/" + ordering + "/" +time)
+
         d3.json(dataPath, getData);
     }
     function getData(err, data) {
@@ -100,7 +115,7 @@ var MashupViz = (function() {
                 ]},
                 {name: $('.order').val(), "var": 'cnt', span:6}
             ];
-        } else if($(viewHidden[0]).val() == 'users') {
+        } else if($(viewHidden[0]).val() == 'djs') {
             rows = [
                 {sub: true, fields: [
                     {name: "djname", key:'djid', span:6}
@@ -240,6 +255,10 @@ var MashupViz = (function() {
         Detail.getDetail(detailQuery);
         gotoSecondary();
     }
+    function offSecondary() {
+        $('#topList').removeClass('animated').height($('#topList').css('height','auto').height())
+        $("#containerWrap").removeClass('secondary');
+    }
     function gotoSecondary() {
 
         $('#topList').addClass('animated').height('1px');
@@ -265,6 +284,43 @@ var MashupViz = (function() {
         $('select').selectpicker();
         d3.json(queryVarsUrl,loadQueryVars);
         Detail.init($('#secondary').get())
+        History.Adapter.bind(window,'statechange',stateChange);
+
+    }
+    function stateChange(){ // Note: We are using statechange instead of popstate
+        if(ignoreStateChange) {
+            ignoreStateChange = false;
+            return;
+        }
+        var State = History.getState(); // Note: We are using History.getState() instead of event.state
+        var view = State.data.view;
+        if(view === 'songs' || view === 'djs') {
+            restoreMainState(State.data);
+        } else if(view === 'detail') {
+            Detail.getDetail(State.data.detailData);
+            gotoSecondary();
+        }
+        History.log(State.data, State.title, State.url);
+    }
+    function restoreMainState(data) {
+        offSecondary();
+        console.log('restore main state');
+        $('.viewBtns .active').removeClass('active');
+        $('.viewBtns button[value="' + data.view + '"]').addClass('active');
+        var textValue = null;
+        $(".order option").each(function() { 
+            this.selected = (this.value == data.ordering); 
+            if(this.selected) textValue = this.text;
+        });
+        $('.bootstrap-select.order .btn .filter-option').text(textValue);
+
+        $(".timeNav .active").removeClass('active');
+        $('.timeNav [data-time="' + data.time+'"]').addClass('active');
+        //$('.order').val('up');
+        //$('.order :selected').prop('selected',false);
+        //$('.order [value="' + data.ordering+'"]').prop('selected',true);
+
+        makeRequest();
     }
     function bootstrapRadioButtons() {
         jQuery(function($) {
@@ -290,5 +346,5 @@ var MashupViz = (function() {
         });
     }
     init();
-    return {jsonPath: jsonPath}
+    return {jsonPath: jsonPath, path: path}
 })()
