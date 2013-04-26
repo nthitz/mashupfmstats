@@ -1,3 +1,4 @@
+;
 var Utils = (function() {
 	
 	function getMonthStr(monthNum) {

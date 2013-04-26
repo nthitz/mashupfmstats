@@ -108,6 +108,9 @@ a:hover {
 	font-weight: bold;
 	font-size: 16px;
 }
+.historyGraph {
+	position: relative;
+}
 .historyGraph .bar {
 	fill: #5E855E;
 }
@@ -140,4 +143,22 @@ a:hover {
 	font-weight:bold;
 	font-size: 12px;
 	min-height: 21px;
+}
+
+.historyGraph .chartTT {
+	position: absolute;
+	top:0;
+	left:0;
+	background: rgba(34,171,0, 0.8);
+	z-index:10;
+	padding: 6px 10px;
+	border-radius: 10px;
+	opacity:0;
+	color: white;
+	text-align: center;
+	text-shadow: 2px 2px 3px black;
+	-webkit-transition: opacity 0.3s ease-out;  /* Chrome 1-25, Safari 3.2+ */
+     -moz-transition: opacity 0.3s ease-out;  /* Firefox 4-15 */
+       -o-transition: opacity 0.3s ease-out;  /* Opera 10.50–12.00 */
+          transition: opacity 0.3s ease-out;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
 }

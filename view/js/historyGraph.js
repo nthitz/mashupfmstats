@@ -14,15 +14,18 @@ var HistoryGraph = (function() {
 	var tableDiv;
 	var tableHeaders;
 	var tableData;
+	var tooltip
 	function init(_div) {
 		div = _div;
 		svg = div.append('div').attr('class','row-fluid')
 			.append('div').attr('class','span12')
 			.append('svg').style('width','100%').style('height','200px');
 		svg.append('g').attr('class','bars');
+		tooltip = div.append('div').attr('class','chartTT').text('hi');
 		tableDiv = div.append('div').attr('class','table table-striped');
 		tableDiv.append('div').attr('class','row-fluid headers');
 		tableDiv.append('div').attr('class','container rows');
+		
 	}
 	function getBucketIndex(time) {
 		return bucketIndex = Math.floor((time - minTime) / (maxTime - minTime) * (maxTime - minTime) / bucketTimeSize);
@@ -66,7 +69,7 @@ var HistoryGraph = (function() {
 		valueYScale = d3.scale.linear().domain([0,maxPlays]).range([0,height - padding.top- padding.bottom]);
 		var bars = svg.select('.bars').selectAll('.bar').data(buckets);
 		bars.enter().append('rect');
-		bars.attr('class','bar')
+		bars.attr('class','bar').attr('title','tt data')
 			.attr('x',function(d,i) {
 				return padding.left + indexXScale(i);
 			}).attr('height',function(d) {
@@ -89,7 +92,7 @@ var HistoryGraph = (function() {
 				}
 				return d.numPlays;
 			})
-
+		d3.selectAll('.bar').on('mouseover',hoverBar).on('mouseout',hoverOffBar);
 		var numDateLabels = 4;
 		var dateLabels = [];
 		var dateDiff = maxTime - minTime;
@@ -134,6 +137,27 @@ var HistoryGraph = (function() {
 					return 'middle';
 				}
 			}) 
+	}
+	function hoverBar(d,i) {
+		console.log('hover');
+		var pos = $(this).position();
+		console.log(pos);
+		console.log(d);
+		var tip = '<b>' + d.numPlays + '</b> play' + (d.numPlay != 1 ? 's':'') + ' from';
+		tip += '<br />';
+		tip += tooltipDateFormat(d.minTime) + ' to ' + tooltipDateFormat(d.minTime);
+		tooltip.html(tip);
+
+		pos.top -= $(tooltip[0]).height() + 13;
+		pos.left -= $(tooltip[0]).width() / 2;
+		tooltip.style('left',pos.left + 'px').style('top',pos.top + 'px').style('opacity','1');
+	}
+	function hoverOffBar() {
+		tooltip.style('opacity',0);
+	}
+	function tooltipDateFormat(time) {
+		var d = new Date(time* 1000);
+		return Utils.getMonthStr(d.getMonth()) + " " + d.getDate() + ',' + d.getFullYear();
 	}
 	function table(type) {
 		var headers;
