@@ -145,7 +145,7 @@ var HistoryGraph = (function() {
 		console.log(d);
 		var tip = '<b>' + d.numPlays + '</b> play' + (d.numPlay != 1 ? 's':'') + ' from';
 		tip += '<br />';
-		tip += tooltipDateFormat(d.minTime) + ' to ' + tooltipDateFormat(d.minTime);
+		tip += tooltipDateFormat(d.minTime) + ' to ' + tooltipDateFormat(d.maxTime);
 		tooltip.html(tip);
 
 		pos.top -= $(tooltip[0]).height() + 13;
