@@ -9,10 +9,10 @@
 		{"lbl": "score", "var": "realScore"}
 	],
 	"times": [
-		{"lbl": "last week", "time": "week"},
-		{"lbl": "24 hours", "time": "day"},
-		{"lbl": "last month", "time": "months1" },
 		{"lbl": "last 3 months", "time": "months3" },
+		{"lbl": "24 hours", "time": "day"},
+		{"lbl": "last week", "time": "week"},
+		{"lbl": "last month", "time": "months1" },
 		{"lbl": "last 6 months", "time": "months6" },
 		{"lbl": "last year", "time": "year" },
 		{"lbl": "all time", "time" : "all"}

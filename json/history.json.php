@@ -1,7 +1,9 @@
 <?php
 require "../secret.php";
 
-$now = time();
+require "cachedQuery.php";
+$queryCache = new QueryCache();
+$now = mktime(0,0,0);
 $yearSeconds = 60 * 60 *24 * 365;
 $lastYear = $now - $yearSeconds;
 $key = null;
@@ -37,7 +39,8 @@ if($key === 'djid') {
 $q .=' ORDER BY startTime DESC';
 
 $plays = array();
-
+$plays = json_decode($queryCache->getQuery($q));
+/*
 if ($result = $db->query($q)) {
     while($row = $result->fetch_array(MYSQLI_ASSOC))
 	{
@@ -48,6 +51,8 @@ if ($result = $db->query($q)) {
 	printf("Error: %s\n", $db->error);
 	die($q);
 }
+*/
+$data['plays'] = $plays;
 
 switch($key) {
 	case "djid":
@@ -61,6 +66,7 @@ switch($key) {
 		}
 	break;
 }
+
 echo json_encode($data);
 
 ?>

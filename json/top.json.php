@@ -1,7 +1,8 @@
 <?php
 require "../secret.php";
-
-$now = time();
+require "cachedQuery.php";
+$queryCache = new QueryCache();
+$now = mktime(0,0,0);
 $orderVar = null;
 $timeVar = null;
 $orderingVar = null;
@@ -116,6 +117,8 @@ $q .= ' GROUP BY '.$groupBy.' ORDER BY cnt DESC';
 
 $q .= ' LIMIT 50';
 dbConnect();
+echo $queryCache->getQuery($q);
+/*
 $songs = array();
 if ($result = $db->query($q)) {
     while($row = $result->fetch_array(MYSQLI_ASSOC))
@@ -127,6 +130,7 @@ if ($result = $db->query($q)) {
 	printf("Error: %s\n", $db->error);
 	die($q);
 }
+*/
 /*
 $lastWeek = $now - 60 * 60 * 24 * 7;
 $topSongTypes = array('COUNT(*)', 'AVG(up)','AVG(down)','AVG(spread)','AVG(snagged)','AVG(score)','AVG(realScore)');

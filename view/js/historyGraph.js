@@ -197,6 +197,7 @@ var HistoryGraph = (function() {
 		})
 		var rows = tableDiv.select('.rows').selectAll('.row-fluid').data(tableData);
 		rows.enter().append('div').attr('class','row-fluid')
+		rows.exit().remove();
 		var span = rows.selectAll('.span').data(function(d) {
 			return d.cells
 		})
