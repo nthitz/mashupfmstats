@@ -1,6 +1,6 @@
 var MashupViz = (function() {
-    var jsonPath = "/mashupfmstats/json/";
-    var path = "/mashupfmstats/view/"
+    var jsonPath = "/mashupcharts/json/";
+    var path = "/mashupcharts/view/"
     var queryVarsUrl = jsonPath + "vars.json";
     var timePeriodNav;
     var orderSelect;
