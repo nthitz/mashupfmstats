@@ -16,6 +16,7 @@ var HistoryGraph = (function() {
 	var tableData;
 	var tooltip;
 	var detailParent;
+	var transitionDuration = 400;
 	function init(_div,detail) {
 		div = _div;
 		detailParent = detail;
@@ -71,7 +72,7 @@ var HistoryGraph = (function() {
 		valueYScale = d3.scale.linear().domain([0,maxPlays]).range([0,height - padding.top- padding.bottom]);
 		var bars = svg.select('.bars').selectAll('.bar').data(buckets);
 		bars.enter().append('rect');
-		bars.attr('class','bar').attr('title','tt data')
+		bars.attr('class','bar').attr('title','tt data').transition().duration(transitionDuration)
 			.attr('x',function(d,i) {
 				return padding.left + indexXScale(i);
 			}).attr('height',function(d) {
@@ -83,7 +84,7 @@ var HistoryGraph = (function() {
 			}).attr('width',barWidth-1);
 		var barLbls = svg.select('.bars').selectAll('.barLbl').data(buckets);
 		barLbls.enter().append('text');
-		barLbls.attr('class','barLbl')
+		barLbls.attr('class','barLbl').transition().duration(transitionDuration)
 			.attr('x',function(d,i) {
 				return padding.left + indexXScale(i) + barWidth / 2.0;
 			}).attr("y",function(d,i) {

@@ -100,11 +100,11 @@ a:hover {
 	height: auto;
 }
 
-.song .songInfo .lbl {
+.metadata .lbl {
 	font-size:11px;
 	color: #999;
 }
-.song .songInfo .value {
+.metadata .value {
 	font-weight: bold;
 	font-size: 16px;
 }
@@ -168,5 +168,5 @@ a:hover {
 	cursor:pointer;
 }
 .hoverunderline:hover {
-	text-decoration: underline; 
+	text-decoration	: underline; 
 }

@@ -7,7 +7,8 @@ var Detail = (function() {
 		div = _div[0];
 		songInited = false;
 		djInited = false;
-		metadataDiv = d3.select(div).append('div').attr('class','metadata');
+		metadataDiv = d3.select(div).append('div').attr('class','metadata row-fluid');
+
 		var historyGraphDiv = d3.select(div).append('div').attr('class','historyGraph');
 		HistoryGraph.init(historyGraphDiv,this);
 	}
@@ -40,24 +41,15 @@ var Detail = (function() {
 		}
 	}
 	function initSong() {
-
-		var songDiv = metadataDiv.append('div').attr('class','container song');
-		this.songDiv = songDiv;
-		songInfo = songDiv.append('div').attr('class','songInfo row-fluid');
 	}
-	function songHistory(data) {
-		if(!this.songInited) {
-			initSong();
-			this.songInited = true;
-		}
-		var songInfoData = [
-			{lbl: 'title', value: data.song.title},
-			{lbl: 'artist', value: data.song.artist},
-			//lbl: 'album', value: data.song.album},
-			{lbl: 'length', value: data.song.length}
-		]
-		var infoPieces = this.songDiv.select('.songInfo').selectAll('.infoPiece').data(songInfoData);
+	function initMetaDataTable() {
+
+	}
+	function metaDataTable(metaDataInfo) {
+		console.log(metaDataInfo);
+		var infoPieces = metadataDiv.selectAll('.infoPiece').data(metaDataInfo);
 		infoPieces.enter().append('div');
+		infoPieces.exit().remove();
 		infoPieces.attr('class',function(d,i) {
 			var spanCount = 6;
 			if(d.lbl === 'length') {
@@ -79,6 +71,19 @@ var Detail = (function() {
 			return text;
 
 		})
+	}
+	function songHistory(data) {
+		if(!this.songInited) {
+			initSong();
+			this.songInited = true;
+		}
+		var songInfoData = [
+			{lbl: 'title', value: data.song.title},
+			{lbl: 'artist', value: data.song.artist},
+			//lbl: 'album', value: data.song.album},
+			{lbl: 'length', value: data.song.length}
+		];
+		metaDataTable(songInfoData)
 		HistoryGraph.loadGraph(data);
 		HistoryGraph.table('song');
 	}
@@ -90,6 +95,8 @@ var Detail = (function() {
 			this.djInited = true;
 			initDj();
 		}
+		console.log(data);
+		metaDataTable([{lbl: 'dj', value: data.plays[0].djname}]);
 		HistoryGraph.loadGraph(data);
 		HistoryGraph.table('dj');
 	}
