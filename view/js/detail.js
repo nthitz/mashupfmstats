@@ -9,7 +9,7 @@ var Detail = (function() {
 		djInited = false;
 		metadataDiv = d3.select(div).append('div').attr('class','metadata');
 		var historyGraphDiv = d3.select(div).append('div').attr('class','historyGraph');
-		HistoryGraph.init(historyGraphDiv);
+		HistoryGraph.init(historyGraphDiv,this);
 	}
 	function getDetail(data) {
 		var value = null;
@@ -31,7 +31,7 @@ var Detail = (function() {
 		}
 		console.log(data);
 		switch(data.key) {
-			case 'songid':
+			case 'songId':
 				return songHistory(data);
 			break;
 			case 'djid':
@@ -56,8 +56,8 @@ var Detail = (function() {
 			//lbl: 'album', value: data.song.album},
 			{lbl: 'length', value: data.song.length}
 		]
-		var infoPieces = this.songDiv.select('.songInfo').selectAll('.infoPiece').data(songInfoData)
-			.enter().append('div');
+		var infoPieces = this.songDiv.select('.songInfo').selectAll('.infoPiece').data(songInfoData);
+		infoPieces.enter().append('div');
 		infoPieces.attr('class',function(d,i) {
 			var spanCount = 6;
 			if(d.lbl === 'length') {

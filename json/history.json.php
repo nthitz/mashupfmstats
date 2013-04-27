@@ -13,7 +13,7 @@ if(isset($_GET['key']) && ctype_alnum($_GET['key'])) {
 } else {
 	die('key');
 }
-if($key !== 'djid' && $key !== 'songid') {
+if($key !== 'djid' && $key !== 'songId') {
 	die('key');
 }
 if(isset($_GET['value']) && ctype_alnum($_GET['value'])) {
@@ -34,7 +34,7 @@ if($key === 'djid') {
 } 
 $q.= ' WHERE ' . $key .'="'.$valueSafe. '" && startTime >'. $lastYear ;
 if($key === 'djid') {
-	$q .= ' && play.songid=song.songid';
+	$q .= ' && play.songId=song.songId';
 }
 $q .=' ORDER BY startTime DESC';
 
@@ -58,8 +58,8 @@ switch($key) {
 	case "djid":
 
 	break;
-	case "songid":
-		$songQ = 'SELECT * FROM song WHERE songid="'.$valueSafe.'" LIMIT 1';
+	case "songId":
+		$songQ = 'SELECT * FROM song WHERE songId="'.$valueSafe.'" LIMIT 1';
 		if($songResult = $db->query($songQ)) {
 			$row = $songResult->fetch_array(MYSQLI_ASSOC);
 			$data['song'] = $row;

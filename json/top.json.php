@@ -34,8 +34,8 @@ $q = 'SELECT ';
 $groupBy = null;
 switch($viewVar) {
 	case "songs":
-		$q .= 'song.title, song.artist,  play.songid, ';
-		$groupBy = 'play.songid';
+		$q .= 'song.title, song.artist,  play.songId, ';
+		$groupBy = 'play.songId';
 		break;
 	case "djs":
 		$q .= 'play.djid, play.djname, ';
@@ -73,7 +73,7 @@ $q .= ' as cnt';
 $q .= ' FROM ';
 $whereClause = false;
 if($viewVar == 'songs') {
-	$q .= 'song,play WHERE play.songid=song.songid';
+	$q .= 'song,play WHERE play.songId=song.songId';
 	$whereClause = true;
 } else if($viewVar == 'djs') {
 	$q .= 'play';

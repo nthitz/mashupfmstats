@@ -164,3 +164,9 @@ a:hover {
        -o-transition: opacity 0.3s ease-out;  /* Opera 10.50–12.00 */
           transition: opacity 0.3s ease-out;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
 }
+.hoverunderline {
+	cursor:pointer;
+}
+.hoverunderline:hover {
+	text-decoration: underline; 
+}

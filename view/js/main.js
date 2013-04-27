@@ -110,7 +110,7 @@ var MashupViz = (function() {
         if($(viewHidden[0]).val() == 'songs') {
             rows = [
                 {sub: true, fields: [
-                    {name: "title", key:'songid', span:4 },
+                    {name: "title", key:'songId', span:4 },
                     {name: "artist", span:2 }
                 ]},
                 {name: $('.bootstrap-select.order .filter-option').text(), "var": 'cnt', span:6}

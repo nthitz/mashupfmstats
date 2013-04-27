@@ -14,9 +14,11 @@ var HistoryGraph = (function() {
 	var tableDiv;
 	var tableHeaders;
 	var tableData;
-	var tooltip
-	function init(_div) {
+	var tooltip;
+	var detailParent;
+	function init(_div,detail) {
 		div = _div;
+		detailParent = detail;
 		svg = div.append('div').attr('class','row-fluid')
 			.append('div').attr('class','span12')
 			.append('svg').style('width','100%').style('height','200px');
@@ -164,7 +166,7 @@ var HistoryGraph = (function() {
 		if(type === 'song') {
 			headers = [
 				{name: 'time', field: 'startTime', span: 2},
-				{name: 'dj', field: 'djname', span: 4},
+				{name: 'dj', field: 'djname', span: 4, key:'djid'},
 				{name: 'spread', field: 'spread', span: 2},
 				{name: 'hearts', field: 'snagged', span:1}
 			];
@@ -172,7 +174,7 @@ var HistoryGraph = (function() {
 			headers = [
 				{name: 'time', field: 'startTime', span: 2},
 				
-				{name: 'song', field: 'title', span: 4},
+				{name: 'song', field: 'title', span: 4, key:'songId'},
 				{name: 'artist', field: 'artist', span: 4},
 				{name: 'spread', field: 'spread', span: 1},
 				{name: 'hearts', field: 'snagged', span:1}
@@ -203,8 +205,17 @@ var HistoryGraph = (function() {
 		})
 		span.enter().append('div');
 		span.attr('class',function(d,i) {
-			return 'span span'+headers[i].span + " span" + headers[i].name;
-		}).html(tableCell);
+			return 'span span'+headers[i].span + " span" + headers[i].name + " hoverunderline";
+		}).html(tableCell).on('click',function(d,i) {
+			var header = headers[i];
+			if(typeof header.key === 'undefined') {
+				return null;
+			}
+			var newData = {};
+			newData[header.key] = playsData[d.rowIndex][header.key];
+			detailParent.getDetail(newData);
+
+		})
 
 	}
 	function tableCell(d,i) {
