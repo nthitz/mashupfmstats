@@ -81,23 +81,40 @@ a:hover {
 #topList {
 	width: 50%;
 	float: left;
+	opacity: 1;
+
+	-webkit-transition: opacity 0.3s ease-out;  /* Chrome 1-25, Safari 3.2+ */
+     -moz-transition: opacity 0.3s ease-out;  /* Firefox 4-15 */
+       -o-transition: opacity 0.3s ease-out;  /* Opera 10.50–12.00 */
+          transition: opacity 0.3s ease-out;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
 }
 #topList.animated {
-	-webkit-transition: height 1s;
+	-webkit-transition: height 1s, opacity 0.3s ease-out;
+	-moz-transition: height 1s, opacity 0.3s ease-out; /* Firefox 4-15 */
+       -o-transition: height 1s, opacity 0.3s ease-out; /* Opera 10.50–12.00 */
+          transition: height 1s, opacity 0.3s ease-out; /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
 
 }
 #secondary {
 	width: 50%;
-	float:left;
+	float:right;
 	height:0;
+	opacity: 0;
 	-webkit-transition: height 1s;
+
+	-webkit-transition: opacity 0.3s ease-out;  /* Chrome 1-25, Safari 3.2+ */
+     -moz-transition: opacity 0.3s ease-out;  /* Firefox 4-15 */
+       -o-transition: opacity 0.3s ease-out;  /* Opera 10.50–12.00 */
+          transition: opacity 0.3s ease-out;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
 }
 
 #containerWrap.secondary #topList {
 	height: 1px;
+	opacity: 0;
 }
 #containerWrap.secondary #secondary {
 	height: auto;
+	opacity: 1;
 }
 
 .metadata .lbl {

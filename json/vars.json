@@ -4,7 +4,10 @@
 		{"lbl": "upvotes", "var": "up"},
 		{"lbl": "downvotes", "var": "down"},
 		{"lbl": "spread"},
-		{"lbl": "snagged count", "var":"snagged"},
+		{"lbl": "hearts", "var":"snagged"}
+		
+	],
+	"otherSorts" : [
 		{"lbl": "fake score", "var": "score"},
 		{"lbl": "score", "var": "realScore"}
 	],

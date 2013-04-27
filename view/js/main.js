@@ -18,6 +18,7 @@ var MashupViz = (function() {
     var dataRows;
     var replaceState = true;
     var ignoreStateChange = false;
+    var dontSetState = false;
     function loadQueryVars(err, queryVars) {
         console.log(err);
         console.log(queryVars);
@@ -66,8 +67,70 @@ var MashupViz = (function() {
         $(viewHidden[0]).on('change',makeRequest);
 
         bootstrapRadioButtons();
-        $(window).resize(makeTable);
+        $(window).resize(windowResized);
+        setStateFromURL();
+
         makeRequest();
+    }
+    function windowResized() {
+        makeTable();
+        Detail.resize();
+    }
+    function setStateFromURL() {
+        var url = document.location.pathname;
+        console.log(url);
+        var query = url.replace(path,'');
+        if(query === '') {
+            return;
+        }
+        var queryParts = query.split('/');
+        if(queryParts.length == 0) {
+            return;
+        }
+        var queryPart = queryParts[0];
+        if(queryPart === 'songs' || queryPart === 'djs') {
+            setInitialFormVars(queryParts[0], queryParts[1], queryParts[2]);
+        } else if(queryPart === 'detail') {
+            console.log('detail');
+            setDetailState(queryParts);
+        }
+    }
+    /*
+    function setSongsState(queryParts) {
+        console.log(queryParts);
+        setOrderAndTime(queryParts[1], queryParts[2]);
+
+        $('.viewBtns .active').removeClass('active');
+        $('.viewBtns button[value=""]').addClass('active');
+    }
+    function setDJsState(queryParts) {
+        setOrderAndTime(queryParts[1], queryParts[2]);
+    }
+    */
+    function setInitialFormVars(view,order,time) {
+        console.log(view);
+        $('.viewBtns .active').removeClass('active');
+        $('.viewBtns button[value="' + view + '"]').addClass('active');
+        var timeLI = $('.timeNav li[data-time="' + time + '"]')
+        var timeExists = timeLI.length;
+        if(timeExists) {
+            $('.timeNav li.active').removeClass('active');
+            timeLI.addClass('active');
+        }
+
+        $(".order option").each(function() { 
+            this.selected = (this.value == order); 
+            if(this.selected) textValue = this.text;
+        });
+        $('.bootstrap-select.order .btn .filter-option').text(textValue);
+
+    }
+    function setDetailState(queryParts) {
+        dontSetState = true;
+        gotoSecondary();
+        var detailQuery = {};
+        detailQuery[queryParts[1]] = queryParts[2];
+        Detail.getDetail(detailQuery);
     }
     function timeSwitch() {
         $('.timeNav .active').removeClass('active');
@@ -83,15 +146,18 @@ var MashupViz = (function() {
         dataPath += "order=" + ordering + "&";
         dataPath += "view=" + view;
         console.log('request data '+dataPath)
-        var nextState = History.pushState;
-        if(replaceState) {
-            replaceState = false;
-            nextState = History.replaceState;
-            console.log('replace');
-            ignoreStateChange = true;
+        if(dontSetState) {
+            dontSetState = false;
+        } else {
+            var nextState = History.pushState;
+            if(replaceState) {
+                replaceState = false;
+                nextState = History.replaceState;
+                console.log('replace');
+                ignoreStateChange = true;
+            }
+            nextState({time: time, ordering: ordering, view: view}, "View " + view, path + view + "/" + ordering + "/" +time)
         }
-        nextState({time: time, ordering: ordering, view: view}, "View " + view, path + view + "/" + ordering + "/" +time)
-
         d3.json(dataPath, getData);
     }
     function getData(err, data) {
@@ -235,7 +301,13 @@ var MashupViz = (function() {
             
             return barScale(d.d) + 'px';
         })
-        $('#topList').height($('#topList').height())
+        /*
+        var topListHeight = $('#topList').height();
+        if(topListHeight == '0px' || topListHeight == '0') {
+            topListHeight = '1px'
+        }
+        $('#topList').height(topListHeight);
+        */
 
     }
     function barDiv(d,i) {
@@ -260,13 +332,13 @@ var MashupViz = (function() {
         gotoSecondary();
     }
     function offSecondary() {
-        $('#topList').removeClass('animated').height($('#topList').css('height','auto').height())
+        $('#topList').css('height','auto')
+        $('#topList').removeClass('animated')
         $("#containerWrap").removeClass('secondary');
     }
     function gotoSecondary() {
 
         $('#topList').addClass('animated').height('1px');
-
         $('#containerWrap').addClass('secondary');
     }
     function init() {

@@ -87,6 +87,9 @@ var Detail = (function() {
 		HistoryGraph.loadGraph(data);
 		HistoryGraph.table('song');
 	}
+	function resize() {
+		HistoryGraph.resize();
+	}
 	function initDj() {
 		this.djDiv = d3.select(this.div).append('div').attr('class','dj');
 	}
@@ -102,6 +105,7 @@ var Detail = (function() {
 	}
 	return {
 		init: init,
-		getDetail: getDetail
+		getDetail: getDetail,
+		resize: resize
 	};
 })()

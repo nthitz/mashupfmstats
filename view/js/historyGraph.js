@@ -17,6 +17,9 @@ var HistoryGraph = (function() {
 	var tooltip;
 	var detailParent;
 	var transitionDuration = 400;
+	var lastBuckets;
+	var barWidth;
+	var indexXScale;
 	function init(_div,detail) {
 		div = _div;
 		detailParent = detail;
@@ -45,30 +48,16 @@ var HistoryGraph = (function() {
 			buckets.push(bucket);
 		}
 	}
-	function loadGraph(data) {
+	function resize() {
+		resizeBars();
+	}
+	function resizeBars() {
 		width = $(div[0]).width();
-		console.log('width ' + width);
-		playsData = data.plays;
-		minTime = data.times.min;
-		maxTime = data.times.max;
-		maxPlays = 0;
-		initBuckets(bucketTimeSize);
-		_.each(buckets,function(bucket) {
-			bucket.numPlays = 0;
-		})
-		_.each(playsData,function(play,i) {
-			var bucketIndex = getBucketIndex(play.startTime);
-			buckets[bucketIndex].numPlays ++;
-		})
-		_.each(buckets,function(bucket) {
-			if(bucket.numPlays > maxPlays) {
-				maxPlays = bucket.numPlays;
-			}
-		})
 		var graphWidth = width - padding.left - padding.right;
-		var barWidth = Math.floor(graphWidth / buckets.length);
+		
+		barWidth = Math.floor(graphWidth / buckets.length);
 		timeXScale = d3.scale.linear().domain([minTime, maxTime]).range([0, graphWidth]);
-		var indexXScale = d3.scale.linear().domain([0,buckets.length]).range([0,graphWidth]);
+		indexXScale = d3.scale.linear().domain([0,buckets.length]).range([0,graphWidth]);
 		valueYScale = d3.scale.linear().domain([0,maxPlays]).range([0,height - padding.top- padding.bottom]);
 		var bars = svg.select('.bars').selectAll('.bar').data(buckets);
 		bars.enter().append('rect');
@@ -95,6 +84,30 @@ var HistoryGraph = (function() {
 				}
 				return d.numPlays;
 			})
+
+	}
+	function loadGraph(data) {
+		lastData = data;
+		console.log('width ' + width);
+		playsData = data.plays;
+		minTime = data.times.min;
+		maxTime = data.times.max;
+		maxPlays = 0;
+		initBuckets(bucketTimeSize);
+		_.each(buckets,function(bucket) {
+			bucket.numPlays = 0;
+		})
+		_.each(playsData,function(play,i) {
+			var bucketIndex = getBucketIndex(play.startTime);
+			buckets[bucketIndex].numPlays ++;
+		})
+		_.each(buckets,function(bucket) {
+			if(bucket.numPlays > maxPlays) {
+				maxPlays = bucket.numPlays;
+			}
+		})
+		resizeBars()
+		
 		d3.selectAll('.bar').on('mouseover',hoverBar).on('mouseout',hoverOffBar);
 		var numDateLabels = 4;
 		var dateLabels = [];
@@ -238,6 +251,6 @@ var HistoryGraph = (function() {
 
 	}
 	return {
-		init: init, loadGraph: loadGraph, table: table
+		init: init, loadGraph: loadGraph, table: table, resize: resize
 	};
 })()
