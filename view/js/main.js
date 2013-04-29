@@ -65,12 +65,20 @@ var MashupViz = (function() {
             });
         viewHidden.attr('value',views[0].lbl);
         $(viewHidden[0]).on('change',makeRequest);
-
+        $('.nav a').on('click',clickNavLink);
         bootstrapRadioButtons();
         $(window).resize(windowResized);
         setStateFromURL();
 
         makeRequest();
+    }
+    function clickNavLink(e) {
+        var linkText = $(e.currentTarget).text();
+        console.log(linkText);
+        if(linkText == 'About') { 
+            $('.aboutModal').modal('toggle');
+        }
+        e.preventDefault();
     }
     function windowResized() {
         makeTable();
