@@ -49,7 +49,8 @@ var HistoryGraph = (function() {
 		}
 	}
 	function resize() {
-		resizeBars();
+		if(typeof buckets !== 'undefined' && buckets.length > 0)
+			resizeBars();
 	}
 	function resizeBars() {
 		width = $(div[0]).width();

@@ -47,7 +47,8 @@ switch($viewVar) {
 }
 $count = false;
 $avg = false;
-
+$field = false;
+$avg = false;
 switch($orderVar) {
 	case 'count':
 		$count = true;
@@ -58,7 +59,16 @@ switch($orderVar) {
 	case 'snagged':
 	case 'realScore':
 	case 'score':
-		$avg = $orderVar;
+		$field = $orderVar;
+		break;
+	case 'upA':
+	case 'downA':
+	case 'spreadA':
+	case 'snaggedA':
+	case 'realScoreA':
+	case 'scoreA':
+		$field = substr($orderVar, 0, strlen($orderVar) - 1);
+		$avg = true;
 		break;
 	default:
 		die('bad order');
@@ -66,8 +76,12 @@ switch($orderVar) {
 }
 if($count) {
 	$q .= 'COUNT(*)';
-} else if($avg !== false) {
-	$q.= 'SUM('.$avg.')';
+} else if($field !== false) {
+	if($avg) {
+		$q .= 'AVG('.$field.')';
+	} else {
+		$q.= 'SUM('.$field.')';
+	}
 }
 $q .= ' as cnt';
 $q .= ' FROM ';

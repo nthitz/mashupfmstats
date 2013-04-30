@@ -2,9 +2,13 @@
 	"sorts": [
 		{"lbl": "play count", "type": "count"},
 		{"lbl": "upvotes", "var": "up"},
+		{"lbl": "upvotes average", "var": "upA"},
 		{"lbl": "downvotes", "var": "down"},
-		{"lbl": "spread"},
-		{"lbl": "hearts", "var":"snagged"}
+		{"lbl": "downvotes average", "var": "downA"},
+		{"lbl": "spread", "var": "spread"},
+		{"lbl": "spread average", "var": "spreadA"},
+		{"lbl": "hearts", "var":"snagged"},
+		{"lbl": "hearts average", "var":"snaggedA"}
 		
 	],
 	"otherSorts" : [

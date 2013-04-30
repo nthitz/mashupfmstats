@@ -65,7 +65,7 @@ var MashupViz = (function() {
             });
         viewHidden.attr('value',views[0].lbl);
         $(viewHidden[0]).on('change',makeRequest);
-        $('.nav a').on('click',clickNavLink);
+        $('.navbar-fixed-top a').on('click',clickNavLink);
         bootstrapRadioButtons();
         $(window).resize(windowResized);
         setStateFromURL();
@@ -77,6 +77,8 @@ var MashupViz = (function() {
         console.log(linkText);
         if(linkText == 'About') { 
             $('.aboutModal').modal('toggle');
+        } else if(linkText == 'Home' || linkText == 'Mashup.FM Charts') {
+            offSecondary();
         }
         e.preventDefault();
     }
