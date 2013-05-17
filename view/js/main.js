@@ -167,7 +167,8 @@ var MashupViz = (function() {
                 ignoreStateChange = true;
             }
             var url = path + view + "/" + ordering + "/" +time
-            _gaq.push(['_trackPageview', url]);
+            ga('send', 'pageview', url);
+
             nextState({time: time, ordering: ordering, view: view}, "View " + view, url)
         }
         d3.json(dataPath, getData);

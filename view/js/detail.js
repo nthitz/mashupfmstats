@@ -20,9 +20,9 @@ var Detail = (function() {
 			key = k;
 		},this);
 
-		var url = MashupViz.path + 'detail/'+key+'/'+value);
-		_gaq.push(['_trackPageview', url]);
-
+		var url = MashupViz.path + 'detail/'+key+'/'+value;
+        ga('send', 'pageview', url);
+		
 		History.pushState({view: 'detail', detailData:data},'detail', url);
 		var historyRequest = MashupViz.jsonPath + "history.json.php?key=" + key + "&value=" + value;
 		console.log(historyRequest);
