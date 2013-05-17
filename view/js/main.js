@@ -1,6 +1,6 @@
 var MashupViz = (function() {
-    var jsonPath = "/mashupcharts/json/";
     var path = "/mashupcharts/view/"
+    var jsonPath = path + "json/";
     var queryVarsUrl = jsonPath + "vars.json";
     var timePeriodNav;
     var orderSelect;
@@ -166,7 +166,9 @@ var MashupViz = (function() {
                 console.log('replace');
                 ignoreStateChange = true;
             }
-            nextState({time: time, ordering: ordering, view: view}, "View " + view, path + view + "/" + ordering + "/" +time)
+            var url = path + view + "/" + ordering + "/" +time
+            _gaq.push(['_trackPageview', url]);
+            nextState({time: time, ordering: ordering, view: view}, "View " + view, url)
         }
         d3.json(dataPath, getData);
     }

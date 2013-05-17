@@ -19,7 +19,11 @@ var Detail = (function() {
 			value = val;
 			key = k;
 		},this);
-		History.pushState({view: 'detail', detailData:data},'detail', MashupViz.path + 'detail/'+key+'/'+value)
+
+		var url = MashupViz.path + 'detail/'+key+'/'+value);
+		_gaq.push(['_trackPageview', url]);
+
+		History.pushState({view: 'detail', detailData:data},'detail', url);
 		var historyRequest = MashupViz.jsonPath + "history.json.php?key=" + key + "&value=" + value;
 		console.log(historyRequest);
 		d3.json(historyRequest, historyLoaded);
