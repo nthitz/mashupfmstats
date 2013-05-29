@@ -341,6 +341,7 @@ var MashupViz = (function() {
         console.log(dataKeyRow)
         var detailQuery = {};
         detailQuery[dataKeyRow.key] = d[dataKeyRow.key];
+        Detail.fadeOut()
         Detail.getDetail(detailQuery);
         gotoSecondary();
     }
@@ -350,9 +351,11 @@ var MashupViz = (function() {
         $("#containerWrap").removeClass('secondary');
     }
     function gotoSecondary() {
+        if(!$("#containerWrap").hasClass('secondary')) {
+            $('#topList').addClass('animated').height('1px');
+            $('#containerWrap').addClass('secondary');
 
-        $('#topList').addClass('animated').height('1px');
-        $('#containerWrap').addClass('secondary');
+        }
     }
     function init() {
         var wrapper = d3.select('#topList');

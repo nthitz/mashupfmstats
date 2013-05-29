@@ -12,6 +12,15 @@ var Detail = (function() {
 		var historyGraphDiv = d3.select(div).append('div').attr('class','historyGraph');
 		HistoryGraph.init(historyGraphDiv,this);
 	}
+	function fadeOut() {
+		console.log('fadeout');
+		d3.select(div).style('opacity','0.2');
+	}
+	function fadeIn() {
+		console.log('fadein');
+		d3.select(div).style('opacity','1');
+		
+	}
 	function getDetail(data) {
 		var value = null;
 		var key = null;
@@ -19,7 +28,6 @@ var Detail = (function() {
 			value = val;
 			key = k;
 		},this);
-
 		var url = MashupViz.path + 'detail/'+key+'/'+value;
         ga('send', 'pageview', url);
 		
@@ -37,12 +45,14 @@ var Detail = (function() {
 		console.log(data);
 		switch(data.key) {
 			case 'songId':
-				return songHistory(data);
+				songHistory(data);
 			break;
 			case 'djid':
-				return djHistory(data);
+				djHistory(data);
 			break;
 		}
+
+		fadeIn();
 	}
 	function initSong() {
 	}
@@ -75,6 +85,9 @@ var Detail = (function() {
 			return text;
 
 		})
+	}
+	function nullSongHistory(data) {
+
 	}
 	function songHistory(data) {
 		if(!this.songInited) {
@@ -110,6 +123,7 @@ var Detail = (function() {
 	return {
 		init: init,
 		getDetail: getDetail,
-		resize: resize
+		resize: resize,
+		fadeIn: fadeIn, fadeOut:fadeOut
 	};
 })()
